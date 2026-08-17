@@ -1,0 +1,15 @@
+---
+if (import.meta.env.DEV) {
+  return Astro.redirect("/");
+}
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0;url=/" />
+    <script is:inline>location.replace("/")</script>
+  </head>
+  <body></body>
+</html>
