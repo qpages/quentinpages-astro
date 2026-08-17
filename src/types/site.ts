@@ -13,8 +13,15 @@ export interface SiteProfile {
   tagline: string;
   taglineHighlight?: string;
   location: string;
+  city?: string;
+  timezone: string;
+  remoteFriendly?: boolean;
+  mapCoordinates?: { lat: number; lng: number };
+  locationPhoto?: string;
   email: string;
   available: boolean;
+  availabilityLabel?: string;
+  updatedAt?: string;
   photo?: string;
 }
 
@@ -51,7 +58,7 @@ export interface SiteConfig {
 }
 
 export type BentoCardId =
-  "experience" | "playlist" | "reading" | "location" | "work";
+  "experience" | "stack" | "playlist" | "reading" | "location" | "work";
 
 export interface BentoCardConfig {
   id: BentoCardId;
