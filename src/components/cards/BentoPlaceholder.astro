@@ -1,0 +1,24 @@
+---
+import Card from "../Card.astro";
+import { bentoSpanClasses, cn } from "../../lib/cn";
+import type { BentoCardConfig } from "../../types/site";
+
+interface Props {
+  card: BentoCardConfig;
+  style?: string;
+}
+
+const { card, style } = Astro.props;
+---
+
+<div
+  class={cn(
+    "reveal h-full",
+    bentoSpanClasses(card.colSpan, card.rowSpan, card.minHeight),
+  )}
+  style={style}
+>
+  <Card title={card.title} class="h-full">
+    <div class="flex flex-1 flex-col justify-end" aria-hidden="true"></div>
+  </Card>
+</div>

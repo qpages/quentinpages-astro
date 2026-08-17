@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://quentinpages.dev/sitemap-index.xml

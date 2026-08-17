@@ -1,0 +1,107 @@
+---
+import Badge from "./Badge.astro";
+import Button from "./Button.astro";
+import SocialLinks from "./SocialLinks.astro";
+import { getFullName, getTaglineParts } from "../lib/profile";
+import type { SiteCta, SiteProfile, SocialLink } from "../types/site";
+
+interface Props {
+  profile: SiteProfile;
+  cta: SiteCta;
+  ctaSecondary: SiteCta;
+  social: SocialLink[];
+}
+
+const { profile, cta, ctaSecondary, social } = Astro.props;
+
+const fullName = getFullName(profile);
+const taglineParts = getTaglineParts(profile.tagline, profile.taglineHighlight);
+const avatarSrc = profile.photo ?? "/images/avatar.webp";
+
+const avatarClass =
+  "shrink-0 rounded-2xl object-cover ring-1 ring-border/60 shadow-[var(--shadow-card)]";
+---
+
+<aside
+  class="mb-10 lg:sticky lg:top-8 lg:mb-0 lg:w-56 lg:shrink-0 xl:w-60"
+  aria-label="Profile"
+>
+  <div class="reveal flex items-start gap-4 lg:block">
+    <img
+      src={avatarSrc}
+      alt={`Photo of ${fullName}`}
+      width="80"
+      height="80"
+      class:list={[avatarClass, "size-14 lg:size-16"]}
+      loading="eager"
+      decoding="async"
+    />
+
+    <div class="min-w-0 pt-0.5 lg:mt-5">
+      <h1
+        class="text-lg font-semibold tracking-tight text-text-primary lg:text-xl"
+      >
+        {profile.firstName}
+        {profile.lastName}
+      </h1>
+      <p
+        class="mt-1 flex flex-wrap items-center gap-x-1.5 text-sm leading-snug text-text-secondary"
+      >
+        <span>
+          {profile.role}
+          {profile.company && <> at {profile.company}</>}
+        </span>
+        {
+          profile.available && (
+            <>
+              <span aria-hidden="true" class="text-text-muted">
+                ·
+              </span>
+              <Badge label="Open to work" variant="minimal" />
+            </>
+          )
+        }
+      </p>
+    </div>
+  </div>
+
+  <p
+    class="reveal reveal-delay-2 mt-4 text-sm leading-relaxed text-text-secondary lg:mt-5 lg:reveal-delay-3"
+  >
+    {
+      taglineParts.map((part) =>
+        part.highlight ? (
+          <span class="font-accent text-text-primary">{part.text}</span>
+        ) : (
+          part.text
+        ),
+      )
+    }
+  </p>
+
+  <div
+    class="reveal reveal-delay-3 mt-4 flex items-center justify-between gap-3 lg:reveal-delay-3"
+  >
+    <span
+      class="shrink-0 font-mono text-[0.6875rem] tracking-tight text-text-muted"
+    >
+      {profile.location}
+    </span>
+    {
+      social.length > 0 && (
+        <nav aria-label="Social links">
+          <SocialLinks links={social} compact />
+        </nav>
+      )
+    }
+  </div>
+
+  <div
+    class="reveal reveal-delay-3 mt-5 flex flex-wrap gap-2 lg:reveal-delay-3"
+  >
+    <Button href={cta.href} pulse size="compact">{cta.label}</Button>
+    <Button href={ctaSecondary.href} variant="secondary" size="compact">
+      {ctaSecondary.label}
+    </Button>
+  </div>
+</aside>

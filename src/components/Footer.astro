@@ -1,0 +1,41 @@
+---
+interface Props {
+  name: string;
+  email: string;
+  github?: string;
+}
+
+const { name, email, github } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer
+  class="mt-16 border-t border-border/40 pt-8 pb-4 text-center text-xs text-text-muted sm:text-left"
+>
+  <p>
+    © {year}
+    {name} ·{" "}
+    <a
+      href={`mailto:${email}`}
+      class="transition-colors hover:text-text-primary"
+    >
+      {email}
+    </a>
+    {
+      github && (
+        <>
+          {" "}
+          ·{" "}
+          <a
+            href={github}
+            class="transition-colors hover:text-text-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+        </>
+      )
+    }
+  </p>
+</footer>

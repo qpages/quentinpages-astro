@@ -1,0 +1,47 @@
+---
+import type { NavLink } from "../types/site";
+
+interface Props {
+  links: NavLink[];
+  variant?: "horizontal" | "mobile";
+}
+
+const { links, variant = "horizontal" } = Astro.props;
+
+const linkClass =
+  variant === "mobile"
+    ? "mobile-nav-link text-base text-text-secondary transition-colors hover:text-text-primary"
+    : "text-sm text-text-secondary transition-colors hover:text-text-primary";
+---
+
+{
+  variant === "mobile" ? (
+    <ul class="flex flex-col gap-3">
+      {links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class={linkClass}
+            {...(link.external
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    links.map((link) => (
+      <a
+        href={link.href}
+        class={linkClass}
+        {...(link.external
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
+      >
+        {link.label}
+      </a>
+    ))
+  )
+}

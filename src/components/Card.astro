@@ -1,0 +1,29 @@
+---
+import { cn } from "../lib/cn";
+import CardLabel from "./CardLabel.astro";
+
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title, class: className } = Astro.props;
+---
+
+<article
+  class={cn(
+    "flex min-h-48 flex-col rounded-[var(--radius-card)] border border-border/40 bg-surface p-5 shadow-[var(--shadow-card)] transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-border-subtle md:p-6",
+    className,
+  )}
+>
+  {
+    title && (
+      <header class="mb-5">
+        <CardLabel label={title} />
+      </header>
+    )
+  }
+  <div class="flex flex-1 flex-col">
+    <slot />
+  </div>
+</article>
