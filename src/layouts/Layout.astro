@@ -45,10 +45,94 @@ const ogImageUrl = `${siteOrigin}/og.svg`;
     <Font cssVariable="--font-satoshi" preload />
     <Font cssVariable="--font-fraunces" preload />
     <title>{title}</title>
+    <script is:inline>
+      document.documentElement.classList.add("motion-ready");
+    </script>
     <ClientRouter />
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
     <div class="page-grain" aria-hidden="true" transition:persist="grain"></div>
     <slot />
+    <script>
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
+
+      let motionCleanup: (() => void) | undefined;
+
+      function initMotion() {
+        motionCleanup?.();
+
+        const revealItems = [
+          ...document.querySelectorAll<HTMLElement>(".reveal"),
+        ];
+        const cards = [
+          ...document.querySelectorAll<HTMLElement>(
+            ".reveal > article, .reveal > a",
+          ),
+        ];
+
+        if (reduceMotion.matches) {
+          revealItems.forEach((item) => item.classList.add("is-revealed"));
+          document.documentElement.style.setProperty("--scroll-progress", "1");
+          motionCleanup = undefined;
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("is-revealed");
+              observer.unobserve(entry.target);
+            });
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+        );
+
+        revealItems.forEach((item) => observer.observe(item));
+
+        const updateScroll = () => {
+          const distance =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const progress = distance > 0 ? window.scrollY / distance : 0;
+          document.documentElement.style.setProperty(
+            "--scroll-progress",
+            String(Math.min(1, Math.max(0, progress))),
+          );
+        };
+
+        const cardCleanups = cards.map((card) => {
+          const onPointerMove = (event: PointerEvent) => {
+            if (event.pointerType === "touch") return;
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty(
+              "--pointer-x",
+              `${event.clientX - rect.left}px`,
+            );
+            card.style.setProperty(
+              "--pointer-y",
+              `${event.clientY - rect.top}px`,
+            );
+          };
+          card.addEventListener("pointermove", onPointerMove);
+          return () => card.removeEventListener("pointermove", onPointerMove);
+        });
+
+        updateScroll();
+        window.addEventListener("scroll", updateScroll, { passive: true });
+
+        motionCleanup = () => {
+          observer.disconnect();
+          window.removeEventListener("scroll", updateScroll);
+          cardCleanups.forEach((cleanup) => cleanup());
+        };
+      }
+
+      initMotion();
+      document.addEventListener("astro:page-load", initMotion);
+      document.addEventListener("astro:before-swap", () => motionCleanup?.());
+    </script>
   </body>
 </html>

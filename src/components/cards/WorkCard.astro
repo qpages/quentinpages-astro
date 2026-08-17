@@ -1,0 +1,215 @@
+---
+import Card from "../Card.astro";
+import { bentoSpanClasses, cn } from "../../lib/cn";
+import type { BentoCardConfig } from "../../types/site";
+
+interface Props {
+  card: BentoCardConfig;
+  style?: string;
+}
+
+const { card, style } = Astro.props;
+
+const steps = [
+  {
+    number: "01",
+    title: "Frame",
+    description: "Goals, users, constraints.",
+  },
+  {
+    number: "02",
+    title: "Prototype",
+    description: "Test the risky assumptions.",
+  },
+  {
+    number: "03",
+    title: "Build",
+    description: "Ship a focused product.",
+  },
+  {
+    number: "04",
+    title: "Refine",
+    description: "Observe, measure, improve.",
+  },
+];
+---
+
+<div
+  class={cn(
+    "reveal h-full",
+    bentoSpanClasses(card.colSpan, card.rowSpan, card.minHeight),
+  )}
+  style={style}
+>
+  <Card title={card.title} class="work-card h-full">
+    <div class="flex flex-1 flex-col justify-between gap-7">
+      <p
+        class="max-w-xl text-xl leading-snug tracking-tight text-text-muted"
+      >
+        From ambiguity to something{" "}
+        <span class="font-accent text-text-secondary">people can use.</span>
+      </p>
+
+      <ol class="workflow" aria-label="My four-step working process">
+        {
+          steps.map((step, index) => (
+            <li class="workflow__step" tabindex="0">
+              <div class="workflow__rail" aria-hidden="true">
+                <span class="workflow__dot" />
+                {index < steps.length - 1 && <span class="workflow__line" />}
+              </div>
+              <span class="workflow__number">{step.number}</span>
+              <strong class="workflow__title">{step.title}</strong>
+              <span class="workflow__description">{step.description}</span>
+            </li>
+          ))
+        }
+      </ol>
+
+      <p
+        class="font-mono text-[0.625rem] tracking-[0.12em] text-text-muted uppercase"
+      >
+        Async-first <span aria-hidden="true">·</span> Clear scope
+        <span aria-hidden="true">·</span> Weekly demos
+      </p>
+    </div>
+  </Card>
+</div>
+
+<style>
+  .workflow {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .workflow__step {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    grid-template-rows: auto auto auto;
+    padding-right: 1rem;
+    outline: none;
+  }
+
+  .workflow__rail {
+    display: flex;
+    height: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .workflow__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    flex: none;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 9999px;
+    background: var(--color-surface);
+    transition:
+      border-color 0.35s ease,
+      background-color 0.35s ease,
+      box-shadow 0.35s ease,
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .workflow__step:first-child .workflow__dot {
+    border-color: var(--color-status);
+    background: var(--color-status);
+    box-shadow: 0 0 0 3px
+      color-mix(in srgb, var(--color-status) 14%, transparent);
+  }
+
+  .workflow__line {
+    width: calc(100% - 0.5rem);
+    height: 1px;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: linear-gradient(
+      to right,
+      var(--color-border-subtle),
+      color-mix(in srgb, var(--color-border-subtle) 35%, transparent)
+    );
+    animation: draw-line 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.45s;
+  }
+
+  .workflow__step:nth-child(2) .workflow__line {
+    animation-delay: 0.57s;
+  }
+
+  .workflow__step:nth-child(3) .workflow__line {
+    animation-delay: 0.69s;
+  }
+
+  .workflow__step:nth-child(4) .workflow__line {
+    animation-delay: 0.81s;
+  }
+
+  .workflow__number {
+    margin-bottom: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+  }
+
+  .workflow__title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+  }
+
+  .workflow__description {
+    max-width: 9rem;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--color-text-muted);
+    transition:
+      color 0.25s ease,
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .workflow__step:hover .workflow__dot,
+    .workflow__step:focus-visible .workflow__dot {
+      border-color: var(--color-status);
+      background: var(--color-status);
+      box-shadow: 0 0 0 3px
+        color-mix(in srgb, var(--color-status) 14%, transparent);
+      transform: scale(1.12);
+    }
+
+    .workflow__step:hover .workflow__description,
+    .workflow__step:focus-visible .workflow__description {
+      color: var(--color-text-secondary);
+      transform: translateY(-1px);
+    }
+  }
+
+  @keyframes draw-line {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .workflow {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .workflow__line {
+      animation: none;
+      transform: scaleX(1);
+    }
+
+    .workflow__dot,
+    .workflow__description {
+      transition: none;
+    }
+  }
+</style>

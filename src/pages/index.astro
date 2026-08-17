@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ProfileSidebar from "../components/ProfileSidebar.astro";
-import BentoPlaceholder from "../components/cards/BentoPlaceholder.astro";
+import BentoCard from "../components/cards/BentoCard.astro";
 import { site } from "../data/site";
 import { bentoCards } from "../data/bento";
 import { getFullName } from "../lib/profile";
@@ -38,7 +38,7 @@ const visibleCards = bentoCards.filter((card) => card.visible);
       >
         {
           visibleCards.map((card, index) => (
-            <BentoPlaceholder
+            <BentoCard
               card={card}
               style={`animation-delay: ${280 + index * 70}ms`}
             />

@@ -1,0 +1,152 @@
+---
+import Card from "../Card.astro";
+import { experience } from "../../data/experience";
+import { site } from "../../data/site";
+import { bentoSpanClasses, cn } from "../../lib/cn";
+import type { BentoCardConfig } from "../../types/site";
+
+interface Props {
+  card: BentoCardConfig;
+  style?: string;
+}
+
+const { card, style } = Astro.props;
+const { headline, entries } = experience;
+const linkedin = site.links.linkedin;
+---
+
+<div
+  class={cn(
+    "reveal h-full",
+    bentoSpanClasses(card.colSpan, card.rowSpan, card.minHeight),
+  )}
+  style={style}
+>
+  <Card title={card.title} class="h-full">
+    <div class="flex flex-1 flex-col gap-5">
+      <div class="experience-headline">
+        <p
+          class="max-w-64 text-xl leading-snug tracking-[-0.025em] text-text-muted"
+        >
+          {headline.before}
+          {" "}
+          <span class="font-accent text-text-secondary">{headline.accent}</span>
+          {" "}
+          <span>{headline.after}</span>
+        </p>
+      </div>
+
+      <ol class="relative flex flex-1 flex-col gap-0 pl-0.5">
+        {
+          entries.map((entry) => (
+            <li
+              class:list={[
+                "experience-item relative pb-4 pl-5 last:pb-0",
+                !entry.current && "experience-item--past",
+              ]}
+            >
+              <span
+                class:list={[
+                  "experience-dot absolute left-0 top-1.5 size-2 rounded-full",
+                  entry.current
+                    ? "experience-dot--current bg-status"
+                    : "bg-border-subtle",
+                ]}
+                aria-hidden="true"
+              />
+
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5">
+                  <p
+                    class:list={[
+                      "text-[0.9375rem] font-semibold tracking-[-0.01em]",
+                      entry.current
+                        ? "text-text-primary"
+                        : "text-text-primary/90",
+                    ]}
+                  >
+                    {entry.company}
+                  </p>
+                  <p
+                    class="w-28 shrink-0 text-right font-mono text-[0.6875rem] tracking-wide whitespace-nowrap text-text-muted"
+                    aria-label={`${entry.startLabel} to ${entry.endLabel}`}
+                  >
+                    <time datetime={entry.startDate}>{entry.startLabel}</time>
+                    <span aria-hidden="true"> — </span>
+                    {entry.endDate ? (
+                      <time datetime={entry.endDate}>{entry.endLabel}</time>
+                    ) : (
+                      <span>{entry.endLabel}</span>
+                    )}
+                  </p>
+                </div>
+
+                <p class="mt-0.5 text-sm text-text-secondary">{entry.role}</p>
+
+                {entry.context && (
+                  <p class="mt-1 text-xs leading-relaxed text-text-muted">
+                    {entry.context}
+                  </p>
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      {
+        linkedin && (
+          <p class="experience-footer mt-auto pt-1">
+            <a
+              href={linkedin}
+              class="inline-flex items-center gap-1 text-xs tracking-wide text-text-muted uppercase transition-colors hover:text-text-secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on LinkedIn
+              <span aria-hidden="true">→</span>
+            </a>
+          </p>
+        )
+      }
+    </div>
+  </Card>
+</div>
+
+<style>
+  .experience-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 3.5px;
+    top: 10px;
+    bottom: -10px;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-border-subtle) 95%, transparent),
+      color-mix(in srgb, var(--color-border-subtle) 72%, transparent)
+    );
+  }
+
+  .experience-item:first-child::before {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-status) 72%, var(--color-border)),
+      color-mix(in srgb, var(--color-border-subtle) 88%, transparent)
+    );
+  }
+
+  .experience-dot {
+    z-index: 1;
+  }
+
+  .experience-dot--current {
+    box-shadow: 0 0 0 3px
+      color-mix(in srgb, var(--color-status) 16%, transparent);
+  }
+
+  .experience-item--past > div {
+    opacity: 0.76;
+  }
+</style>

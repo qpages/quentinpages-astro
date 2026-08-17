@@ -1,0 +1,35 @@
+---
+import BentoPlaceholder from "./BentoPlaceholder.astro";
+import ExperienceCard from "./ExperienceCard.astro";
+import LocationCard from "./LocationCard.astro";
+import MusicCard from "./MusicCard.astro";
+import ReadingCard from "./ReadingCard.astro";
+import StackCard from "./StackCard.astro";
+import WorkCard from "./WorkCard.astro";
+import type { BentoCardConfig } from "../../types/site";
+
+interface Props {
+  card: BentoCardConfig;
+  style?: string;
+}
+
+const { card, style } = Astro.props;
+---
+
+{
+  card.id === "experience" ? (
+    <ExperienceCard card={card} style={style} />
+  ) : card.id === "stack" ? (
+    <StackCard card={card} style={style} />
+  ) : card.id === "location" ? (
+    <LocationCard card={card} style={style} />
+  ) : card.id === "reading" ? (
+    <ReadingCard card={card} style={style} />
+  ) : card.id === "playlist" ? (
+    <MusicCard card={card} style={style} />
+  ) : card.id === "work" ? (
+    <WorkCard card={card} style={style} />
+  ) : (
+    <BentoPlaceholder card={card} style={style} />
+  )
+}

@@ -1,5 +1,4 @@
 ---
-import Badge from "./Badge.astro";
 import Button from "./Button.astro";
 import SocialLinks from "./SocialLinks.astro";
 import { getFullName, getTaglineParts } from "../lib/profile";
@@ -17,9 +16,14 @@ const { profile, cta, ctaSecondary, social } = Astro.props;
 const fullName = getFullName(profile);
 const taglineParts = getTaglineParts(profile.tagline, profile.taglineHighlight);
 const avatarSrc = profile.photo ?? "/images/avatar.webp";
+const updatedAt = profile.updatedAt
+  ? new Date(`${profile.updatedAt}T00:00:00Z`)
+  : null;
+const daysSinceUpdate = updatedAt
+  ? Math.max(0, Math.floor((Date.now() - updatedAt.getTime()) / 86_400_000))
+  : null;
 
-const avatarClass =
-  "shrink-0 rounded-2xl object-cover ring-1 ring-border/60 shadow-[var(--shadow-card)]";
+const avatarClass = "size-full scale-125 object-cover";
 ---
 
 <aside
@@ -27,46 +31,35 @@ const avatarClass =
   aria-label="Profile"
 >
   <div class="reveal flex items-start gap-4 lg:block">
-    <img
-      src={avatarSrc}
-      alt={`Photo of ${fullName}`}
-      width="80"
-      height="80"
-      class:list={[avatarClass, "size-14 lg:size-16"]}
-      loading="eager"
-      decoding="async"
-    />
+    <div
+      class="size-14 shrink-0 overflow-hidden rounded-2xl ring-1 ring-border/60 shadow-[var(--shadow-card)] lg:size-16"
+    >
+      <img
+        src={avatarSrc}
+        alt={`Photo of ${fullName}`}
+        width="80"
+        height="80"
+        class={avatarClass}
+        loading="eager"
+        decoding="async"
+      />
+    </div>
 
-    <div class="min-w-0 pt-0.5 lg:mt-5">
+    <div class="min-w-0 pt-0.5 lg:mt-6">
       <h1
         class="text-lg font-semibold tracking-tight text-text-primary lg:text-xl"
       >
-        {profile.firstName}
-        {profile.lastName}
+        {profile.firstName}{" "}{profile.lastName}
       </h1>
-      <p
-        class="mt-1 flex flex-wrap items-center gap-x-1.5 text-sm leading-snug text-text-secondary"
-      >
-        <span>
-          {profile.role}
-          {profile.company && <> at {profile.company}</>}
-        </span>
-        {
-          profile.available && (
-            <>
-              <span aria-hidden="true" class="text-text-muted">
-                ·
-              </span>
-              <Badge label="Open to work" variant="minimal" />
-            </>
-          )
-        }
+      <p class="mt-1 text-sm leading-snug text-text-secondary">
+        {profile.role}
+        {profile.company && <> at {profile.company}</>}
       </p>
     </div>
   </div>
 
   <p
-    class="reveal reveal-delay-2 mt-4 text-sm leading-relaxed text-text-secondary lg:mt-5 lg:reveal-delay-3"
+    class="reveal reveal-delay-2 mt-7 text-sm leading-relaxed text-text-secondary lg:mt-9 lg:reveal-delay-3"
   >
     {
       taglineParts.map((part) =>
@@ -79,29 +72,33 @@ const avatarClass =
     }
   </p>
 
-  <div
-    class="reveal reveal-delay-3 mt-4 flex items-center justify-between gap-3 lg:reveal-delay-3"
-  >
-    <span
-      class="shrink-0 font-mono text-[0.6875rem] tracking-tight text-text-muted"
-    >
-      {profile.location}
-    </span>
-    {
-      social.length > 0 && (
-        <nav aria-label="Social links">
-          <SocialLinks links={social} compact />
-        </nav>
-      )
-    }
+  {
+    social.length > 0 && (
+      <nav
+        aria-label="Social links"
+        class="reveal reveal-delay-3 mt-6 lg:reveal-delay-3"
+      >
+        <SocialLinks links={social} compact />
+      </nav>
+    )
+  }
+
+  <div class="reveal reveal-delay-3 mt-7 lg:reveal-delay-3">
+    <div class="flex flex-wrap gap-2.5">
+      <Button href={cta.href} pulse size="compact">{cta.label}</Button>
+      <Button href={ctaSecondary.href} variant="secondary" size="compact">
+        {ctaSecondary.label}
+      </Button>
+    </div>
   </div>
 
-  <div
-    class="reveal reveal-delay-3 mt-5 flex flex-wrap gap-2 lg:reveal-delay-3"
-  >
-    <Button href={cta.href} pulse size="compact">{cta.label}</Button>
-    <Button href={ctaSecondary.href} variant="secondary" size="compact">
-      {ctaSecondary.label}
-    </Button>
-  </div>
+  {
+    updatedAt && daysSinceUpdate !== null && (
+      <p class="reveal reveal-delay-3 mt-5 font-mono text-[0.625rem] tracking-tight text-text-muted">
+        {daysSinceUpdate === 0
+          ? "Mis à jour aujourd’hui."
+          : `Mis à jour il y a ${daysSinceUpdate} jour${daysSinceUpdate === 1 ? "" : "s"}.`}
+      </p>
+    )
+  }
 </aside>

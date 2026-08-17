@@ -5,25 +5,48 @@ import CardLabel from "./CardLabel.astro";
 interface Props {
   title?: string;
   class?: string;
+  href?: string;
+  ariaLabel?: string;
 }
 
-const { title, class: className } = Astro.props;
+const { title, class: className, href, ariaLabel } = Astro.props;
+
+const baseClass = cn(
+  "flex min-h-48 flex-col rounded-[var(--radius-card)] border border-border/30 bg-surface/35 p-5 md:p-6",
+  href &&
+    "text-inherit no-underline transition-colors duration-200 hover:border-border/60 focus-visible:border-border-subtle focus-visible:outline-none",
+  className,
+);
 ---
 
-<article
-  class={cn(
-    "flex min-h-48 flex-col rounded-[var(--radius-card)] border border-border/40 bg-surface p-5 shadow-[var(--shadow-card)] transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-border-subtle md:p-6",
-    className,
-  )}
->
-  {
-    title && (
-      <header class="mb-5">
-        <CardLabel label={title} />
-      </header>
-    )
-  }
-  <div class="flex flex-1 flex-col">
-    <slot />
-  </div>
-</article>
+{
+  href ? (
+    <a
+      href={href}
+      class={baseClass}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={ariaLabel}
+    >
+      {title && (
+        <header class="mb-5">
+          <CardLabel label={title} />
+        </header>
+      )}
+      <div class="flex flex-1 flex-col">
+        <slot />
+      </div>
+    </a>
+  ) : (
+    <article class={baseClass}>
+      {title && (
+        <header class="mb-5">
+          <CardLabel label={title} />
+        </header>
+      )}
+      <div class="flex flex-1 flex-col">
+        <slot />
+      </div>
+    </article>
+  )
+}

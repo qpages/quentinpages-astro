@@ -1,0 +1,82 @@
+---
+import Card from "../Card.astro";
+import { bentoSpanClasses, cn } from "../../lib/cn";
+import type { BentoCardConfig } from "../../types/site";
+
+interface Props {
+  card: BentoCardConfig;
+  style?: string;
+}
+
+const { card, style } = Astro.props;
+
+const stack = [
+  { step: "Shape", tools: "Product, UX, Architecture" },
+  { step: "Build", tools: "TypeScript, React, Node.js" },
+  { step: "Ship", tools: "Docker, Coolify, GitHub Actions" },
+  { step: "Monitor", tools: "Sentry, Grafana" },
+];
+---
+
+<div
+  class={cn(
+    "reveal h-full",
+    bentoSpanClasses(card.colSpan, card.rowSpan, card.minHeight),
+  )}
+  style={style}
+>
+  <Card title={card.title} class="h-full">
+    <div class="flex flex-1 flex-col justify-between gap-4">
+      <p class="text-xl leading-snug tracking-tight text-text-muted">
+        A thoughtful stack, from idea to production.
+      </p>
+
+      <ul class="stack-list" aria-label="Tools I use">
+        {
+          stack.map((item) => (
+            <li class="stack-item">
+              <span class="text-xs text-text-muted">{item.step}</span>
+              <span class="stack-tools text-sm text-text-primary">
+                {item.tools}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Card>
+</div>
+
+<style>
+  .stack-list {
+    border-top: 1px solid
+      color-mix(in srgb, var(--color-border-subtle) 45%, transparent);
+  }
+
+  .stack-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.45rem;
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--color-border-subtle) 34%, transparent);
+  }
+
+  .stack-tools {
+    text-align: right;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .stack-item:hover .stack-tools {
+      transform: translateX(-3px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stack-tools {
+      transition: none;
+    }
+  }
+</style>

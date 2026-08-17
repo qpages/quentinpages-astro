@@ -1,6 +1,7 @@
 ---
 import { site } from "../data/site";
 import { buildNavLinks } from "../lib/site-links";
+import Badge from "./Badge.astro";
 import NavLinks from "./NavLinks.astro";
 
 const navLinks = buildNavLinks(site.links);
@@ -8,10 +9,19 @@ const menuId = "mobile-nav";
 ---
 
 <header class="relative py-8 md:py-10" transition:persist="site-header">
-  <div class="flex items-center justify-end gap-5 sm:justify-between">
+  <div class="flex items-center justify-between gap-5">
     <nav class="hidden items-center gap-5 sm:flex" aria-label="Main navigation">
       <NavLinks links={navLinks} />
     </nav>
+
+    {
+      site.profile.available && (
+        <Badge
+          label={site.profile.availabilityLabel ?? "Open to work"}
+          variant="minimal"
+        />
+      )
+    }
 
     <button
       type="button"
