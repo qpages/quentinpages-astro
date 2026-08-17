@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import { site } from "../data/site";
+import { buildSiteJsonLd } from "../lib/json-ld";
 
 interface Props {
   title?: string;
@@ -16,6 +17,7 @@ const siteOrigin =
   Astro.site?.href.replace(/\/$/, "") ?? site.meta.url.replace(/\/$/, "");
 const canonicalUrl = new URL(Astro.url.pathname, `${siteOrigin}/`).href;
 const ogImageUrl = `${siteOrigin}/og.svg`;
+const jsonLd = buildSiteJsonLd(site, siteOrigin);
 ---
 
 <html lang="en">
@@ -42,8 +44,26 @@ const ogImageUrl = `${siteOrigin}/og.svg`;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLd)}
+    />
+
     <Font cssVariable="--font-satoshi" preload />
     <Font cssVariable="--font-fraunces" preload />
+    <script is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-MW5ZLTXS");
+    </script>
+
     <title>{title}</title>
     <script is:inline>
       document.documentElement.classList.add("motion-ready");
@@ -51,6 +71,13 @@ const ogImageUrl = `${siteOrigin}/og.svg`;
     <ClientRouter />
   </head>
   <body>
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-MW5ZLTXS"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"></iframe>
+    </noscript>
     <div class="scroll-progress" aria-hidden="true"></div>
     <div class="page-grain" aria-hidden="true" transition:persist="grain"></div>
     <slot />
