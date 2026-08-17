@@ -468,10 +468,33 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
     }
   }
 
-  @media (max-width: 420px) {
+  @media (max-width: 639px) {
     .music-layout {
       grid-template-columns: 5.75rem minmax(0, 1fr);
       gap: 1rem;
+    }
+
+    .track__index {
+      display: none;
+    }
+
+    .track__toggle {
+      gap: 0;
+      min-width: auto;
+    }
+
+    .track__control {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .track__icon {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    .track {
+      gap: 0.65rem;
     }
   }
 
