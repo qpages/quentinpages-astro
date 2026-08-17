@@ -16,7 +16,7 @@ const { href, external = false, class: className } = Astro.props;
     "inline-flex items-center gap-1 text-xs tracking-wide text-text-muted uppercase transition-colors hover:text-text-secondary",
     className,
   )}
-  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+  {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
 >
   <slot />
   <span aria-hidden="true">→</span>

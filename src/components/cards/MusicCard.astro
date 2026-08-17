@@ -82,7 +82,7 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
                         fill-rule="evenodd"
                         clip-rule="evenodd"
                         d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l9.962 5.752c1.22.707 1.22 2.476 0 3.183l-9.962 5.752c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-                      ></path>
+                      />
                     </svg>
                     <svg
                       class="track__icon track__icon--pause"
@@ -93,7 +93,7 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
                         fill-rule="evenodd"
                         clip-rule="evenodd"
                         d="M5.75 3a.75.75 0 0 0-.75.75v12.5c0 .414.336.75.75.75h1.5a.75.75 0 0 0 .75-.75V3.75A.75.75 0 0 0 7.25 3h-1.5ZM12.75 3a.75.75 0 0 0-.75.75v12.5c0 .414.336.75.75.75h1.5a.75.75 0 0 0 .75-.75V3.75a.75.75 0 0 0-.75-.75h-1.5Z"
-                      ></path>
+                      />
                     </svg>
                   </span>
                 </button>
@@ -125,7 +125,9 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
 
 <script>
   function initMusicCard(card: HTMLElement) {
-    const toggles = [...card.querySelectorAll<HTMLButtonElement>("[data-audio]")];
+    const toggles = [
+      ...card.querySelectorAll<HTMLButtonElement>("[data-audio]"),
+    ];
     if (toggles.length === 0) return;
 
     const audio = new Audio();
@@ -330,7 +332,8 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
   }
 
   .track__toggle:focus-visible {
-    outline: 1px solid color-mix(in srgb, var(--color-text-primary) 45%, transparent);
+    outline: 1px solid
+      color-mix(in srgb, var(--color-text-primary) 45%, transparent);
     outline-offset: 2px;
     border-radius: 0.15rem;
   }
@@ -348,7 +351,8 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
     height: 1.125rem;
     flex: none;
     place-items: center;
-    border: 1px solid color-mix(in srgb, var(--color-border-subtle) 42%, transparent);
+    border: 1px solid
+      color-mix(in srgb, var(--color-border-subtle) 42%, transparent);
     border-radius: 9999px;
     background: color-mix(in srgb, var(--color-text-primary) 3%, transparent);
     transition:
@@ -377,7 +381,11 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
 
   .track:hover .track__control,
   .track__toggle:focus-visible .track__control {
-    border-color: color-mix(in srgb, var(--color-text-secondary) 34%, transparent);
+    border-color: color-mix(
+      in srgb,
+      var(--color-text-secondary) 34%,
+      transparent
+    );
     color: var(--color-text-primary);
   }
 
