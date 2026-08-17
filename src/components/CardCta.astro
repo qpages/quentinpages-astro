@@ -1,0 +1,23 @@
+---
+import { cn } from "../lib/cn";
+
+interface Props {
+  href: string;
+  external?: boolean;
+  class?: string;
+}
+
+const { href, external = false, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class={cn(
+    "inline-flex items-center gap-1 text-xs tracking-wide text-text-muted uppercase transition-colors hover:text-text-secondary",
+    className,
+  )}
+  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+>
+  <slot />
+  <span aria-hidden="true">→</span>
+</a>

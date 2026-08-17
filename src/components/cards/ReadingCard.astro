@@ -1,5 +1,6 @@
 ---
 import Card from "../Card.astro";
+import CardCta from "../CardCta.astro";
 import { bentoSpanClasses, cn } from "../../lib/cn";
 import type { BentoCardConfig } from "../../types/site";
 
@@ -66,21 +67,10 @@ const book = {
           >
             <span style={`--progress: ${book.progress}%`}></span>
           </div>
-          <div
-            class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs tracking-wide text-text-muted uppercase"
-          >
-            <a
-              href={book.kindleUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-link inline-flex items-center gap-1"
-            >
-              Read on Kindle <span aria-hidden="true">→</span>
-            </a>
+          <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+            <CardCta href={book.kindleUrl} external>Read on Kindle</CardCta>
             <span class="text-border-subtle" aria-hidden="true">/</span>
-            <a href="/reading" class="text-link inline-flex items-center gap-1">
-              Browse my bookshelf <span aria-hidden="true">→</span>
-            </a>
+            <CardCta href="/reading">Browse my bookshelf</CardCta>
           </div>
         </div>
       </div>

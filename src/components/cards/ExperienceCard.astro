@@ -1,5 +1,6 @@
 ---
 import Card from "../Card.astro";
+import CardCta from "../CardCta.astro";
 import { experience } from "../../data/experience";
 import { site } from "../../data/site";
 import { bentoSpanClasses, cn } from "../../lib/cn";
@@ -97,15 +98,7 @@ const linkedin = site.links.linkedin;
       {
         linkedin && (
           <p class="experience-footer mt-auto pt-1">
-            <a
-              href={linkedin}
-              class="inline-flex items-center gap-1 text-xs tracking-wide text-text-muted uppercase transition-colors hover:text-text-secondary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View on LinkedIn
-              <span aria-hidden="true">→</span>
-            </a>
+            <CardCta href={linkedin} external>View on LinkedIn</CardCta>
           </p>
         )
       }

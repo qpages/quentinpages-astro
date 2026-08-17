@@ -1,5 +1,6 @@
 ---
 import Card from "../Card.astro";
+import CardCta from "../CardCta.astro";
 import { bentoSpanClasses, cn } from "../../lib/cn";
 import type { BentoCardConfig } from "../../types/site";
 
@@ -114,14 +115,9 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
           }
         </ol>
 
-        <a
-          href={spotifyUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="spotify-link"
-        >
-          Listen on Spotify <span aria-hidden="true">↗</span>
-        </a>
+        <CardCta href={spotifyUrl} external class="mt-[1.1rem]">
+          Listen on Spotify
+        </CardCta>
       </div>
     </div>
   </Card>
@@ -446,24 +442,6 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
   .track.is-active .track__title:hover {
     color: #ffb889;
     text-decoration-color: color-mix(in srgb, #ffb889 55%, transparent);
-  }
-
-  .spotify-link {
-    display: inline-flex;
-    margin-top: 1.1rem;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.05em;
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s ease;
-  }
-
-  .spotify-link:hover {
-    color: var(--color-text-primary);
   }
 
   @media (hover: hover) and (pointer: fine) {
