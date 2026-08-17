@@ -27,31 +27,29 @@ const avatarClass = "size-full scale-125 object-cover";
 ---
 
 <aside
-  class="mb-10 lg:sticky lg:top-8 lg:mb-0 lg:w-56 lg:shrink-0 xl:w-60"
+  class="mb-12 lg:sticky lg:top-8 lg:mb-0 lg:w-64 lg:shrink-0 xl:w-72"
   aria-label="Profile"
 >
-  <div class="reveal flex items-start gap-4 lg:block">
+  <div class="reveal flex flex-col gap-5 lg:block">
     <div
-      class="size-14 shrink-0 overflow-hidden rounded-2xl ring-1 ring-border/60 shadow-[var(--shadow-card)] lg:size-16"
+      class="size-20 shrink-0 overflow-hidden rounded-2xl ring-1 ring-border/60 shadow-[var(--shadow-card)]"
     >
       <img
         src={avatarSrc}
         alt={`Photo of ${fullName}`}
-        width="80"
-        height="80"
+        width="96"
+        height="96"
         class={avatarClass}
         loading="eager"
         decoding="async"
       />
     </div>
 
-    <div class="min-w-0 pt-0.5 lg:mt-6">
-      <h1
-        class="text-lg font-semibold tracking-tight text-text-primary lg:text-xl"
-      >
+    <div class="min-w-0 lg:mt-7">
+      <h1 class="text-2xl font-semibold tracking-tight text-text-primary">
         {profile.firstName}{" "}{profile.lastName}
       </h1>
-      <p class="mt-1 text-sm leading-snug text-text-secondary">
+      <p class="mt-2 text-base leading-snug text-text-secondary">
         {profile.role}
         {profile.company && <> at {profile.company}</>}
       </p>
@@ -59,7 +57,7 @@ const avatarClass = "size-full scale-125 object-cover";
   </div>
 
   <p
-    class="reveal reveal-delay-2 mt-7 text-sm leading-relaxed text-text-secondary lg:mt-9 lg:reveal-delay-3"
+    class="reveal reveal-delay-2 mt-8 text-base leading-relaxed text-text-secondary lg:mt-10 lg:reveal-delay-3"
   >
     {
       taglineParts.map((part) =>
@@ -76,17 +74,23 @@ const avatarClass = "size-full scale-125 object-cover";
     social.length > 0 && (
       <nav
         aria-label="Social links"
-        class="reveal reveal-delay-3 mt-6 lg:reveal-delay-3"
+        class="reveal reveal-delay-3 mt-7 lg:mt-6 lg:reveal-delay-3"
       >
-        <SocialLinks links={social} compact />
+        <SocialLinks links={social} />
       </nav>
     )
   }
 
-  <div class="reveal reveal-delay-3 mt-7 lg:reveal-delay-3">
-    <div class="flex flex-wrap gap-2.5">
-      <Button href={cta.href} pulse size="compact">{cta.label}</Button>
-      <Button href={ctaSecondary.href} variant="secondary" size="compact">
+  <div class="reveal reveal-delay-3 mt-8 lg:reveal-delay-3">
+    <div class="flex flex-col gap-2.5 lg:flex-row lg:flex-wrap lg:gap-3">
+      <Button href={cta.href} pulse class="min-h-11 w-full justify-center lg:w-fit">
+        {cta.label}
+      </Button>
+      <Button
+        href={ctaSecondary.href}
+        variant="secondary"
+        class="min-h-11 w-full justify-center max-lg:border-border-subtle max-lg:bg-surface/35 lg:w-fit"
+      >
         {ctaSecondary.label}
       </Button>
     </div>
@@ -94,7 +98,7 @@ const avatarClass = "size-full scale-125 object-cover";
 
   {
     updatedAt && daysSinceUpdate !== null && (
-      <p class="reveal reveal-delay-3 mt-5 font-mono text-[0.625rem] tracking-tight text-text-muted">
+      <p class="reveal reveal-delay-3 mt-6 font-mono text-xs tracking-tight text-text-muted">
         {daysSinceUpdate === 0
           ? "Mis à jour aujourd’hui."
           : `Mis à jour il y a ${daysSinceUpdate} jour${daysSinceUpdate === 1 ? "" : "s"}.`}
