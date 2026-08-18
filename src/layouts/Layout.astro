@@ -44,10 +44,7 @@ const jsonLd = buildSiteJsonLd(site, siteOrigin);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify(jsonLd)}
-    />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <Font cssVariable="--font-satoshi" preload />
     <Font cssVariable="--font-fraunces" preload />
@@ -55,7 +52,7 @@ const jsonLd = buildSiteJsonLd(site, siteOrigin);
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
+        const f = d.getElementsByTagName(s)[0],
           j = d.createElement(s),
           dl = l != "dataLayer" ? "&l=" + l : "";
         j.async = true;
