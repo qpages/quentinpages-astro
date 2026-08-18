@@ -14,7 +14,7 @@ export const experience: ExperienceConfig = {
       startLabel: "2026",
       endLabel: "now",
       current: true,
-      context: "SMEs · Consulting & custom software",
+      context: "SMEs, consulting & custom software",
     },
     {
       company: "Selego",
@@ -23,7 +23,7 @@ export const experience: ExperienceConfig = {
       startLabel: "2024",
       endDate: "2026",
       endLabel: "2026",
-      context: "Venture studio · 0→1 products",
+      context: "Venture studio, from 0 to 1 products",
     },
     {
       company: "FDJ",
@@ -32,7 +32,8 @@ export const experience: ExperienceConfig = {
       startLabel: "2023",
       endDate: "2024",
       endLabel: "2024",
-      context: "High-traffic platforms",
+      context:
+        "Large enterprise contract for a major client, enterprise applications",
     },
     {
       company: "Capgemini",
