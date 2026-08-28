@@ -1,5 +1,7 @@
 import type { SiteConfig } from "../types/site";
 
+const email = "hello@quentinpages.dev";
+
 export const site: SiteConfig = {
   meta: {
     title: "Quentin Pages — Fullstack Developer",
@@ -20,14 +22,14 @@ export const site: SiteConfig = {
     remoteFriendly: true,
     mapCoordinates: { lat: 48.8566, lng: 2.3522 },
     locationPhoto: "/images/paris-street.webp",
-    email: "hello@quentinpages.com",
+    email,
     available: true,
     availabilityLabel: "Available from October",
     photo: "/images/avatar.webp",
   },
   cta: {
     label: "Book a call",
-    href: "mailto:hello@quentinpages.com",
+    href: `mailto:${email}`,
   },
   ctaSecondary: {
     label: "View work",
