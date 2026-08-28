@@ -21,7 +21,6 @@ export interface SiteProfile {
   email: string;
   available: boolean;
   availabilityLabel?: string;
-  updatedAt?: string;
   photo?: string;
 }
 

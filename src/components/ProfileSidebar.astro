@@ -1,7 +1,9 @@
 ---
 import Button from "./Button.astro";
 import SocialLinks from "./SocialLinks.astro";
+import { getMainUpdatedAt } from "../lib/main-updated-at";
 import { getFullName, getTaglineParts } from "../lib/profile";
+import { formatUpdatedLabel } from "../lib/updated-label";
 import type { SiteCta, SiteProfile, SocialLink } from "../types/site";
 
 interface Props {
@@ -16,12 +18,8 @@ const { profile, cta, ctaSecondary, social } = Astro.props;
 const fullName = getFullName(profile);
 const taglineParts = getTaglineParts(profile.tagline, profile.taglineHighlight);
 const avatarSrc = profile.photo ?? "/images/avatar.webp";
-const updatedAt = profile.updatedAt
-  ? new Date(`${profile.updatedAt}T00:00:00Z`)
-  : null;
-const daysSinceUpdate = updatedAt
-  ? Math.max(0, Math.floor((Date.now() - updatedAt.getTime()) / 86_400_000))
-  : null;
+const updatedAt = await getMainUpdatedAt();
+const updatedLabel = updatedAt ? formatUpdatedLabel(updatedAt) : null;
 
 const avatarClass = "size-full scale-125 object-cover";
 ---
@@ -101,12 +99,24 @@ const avatarClass = "size-full scale-125 object-cover";
   </div>
 
   {
-    updatedAt && daysSinceUpdate !== null && (
+    updatedAt && updatedLabel && (
       <p class="reveal reveal-delay-3 mt-6 font-mono text-xs tracking-tight text-text-muted">
-        {daysSinceUpdate === 0
-          ? "Mis à jour aujourd’hui."
-          : `Mis à jour il y a ${daysSinceUpdate} jour${daysSinceUpdate === 1 ? "" : "s"}.`}
+        <time id="site-updated-at" datetime={updatedAt.toISOString()}>
+          {updatedLabel}
+        </time>
       </p>
     )
   }
 </aside>
+
+<script>
+  import { formatUpdatedLabel } from "../lib/updated-label";
+
+  const el = document.getElementById("site-updated-at");
+  if (el instanceof HTMLTimeElement && el.dateTime) {
+    const date = new Date(el.dateTime);
+    if (!Number.isNaN(date.getTime())) {
+      el.textContent = formatUpdatedLabel(date);
+    }
+  }
+</script>

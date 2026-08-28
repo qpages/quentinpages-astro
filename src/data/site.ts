@@ -23,7 +23,6 @@ export const site: SiteConfig = {
     email: "hello@quentinpages.com",
     available: true,
     availabilityLabel: "Available from October",
-    updatedAt: "2026-08-18",
     photo: "/images/avatar.webp",
   },
   cta: {
