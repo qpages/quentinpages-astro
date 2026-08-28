@@ -6,12 +6,13 @@ import NavLinks from "./NavLinks.astro";
 
 const navLinks = buildNavLinks(site.links);
 const menuId = "mobile-nav";
+const currentPath = Astro.url.pathname;
 ---
 
 <header class="relative py-8 md:py-10" transition:persist="site-header">
   <div class="flex items-center justify-between gap-5">
     <nav class="hidden items-center gap-5 sm:flex" aria-label="Main navigation">
-      <NavLinks links={navLinks} />
+      <NavLinks links={navLinks} currentPath={currentPath} />
     </nav>
 
     {
@@ -70,11 +71,13 @@ const menuId = "mobile-nav";
     aria-label="Mobile navigation"
     hidden
   >
-    <NavLinks links={navLinks} variant="mobile" />
+    <NavLinks links={navLinks} variant="mobile" currentPath={currentPath} />
   </nav>
 </header>
 
 <script>
+  import { isCurrentNavLink } from "../lib/site-links";
+
   let mobileNavController: AbortController | undefined;
 
   function setupMobileNav() {
@@ -86,6 +89,17 @@ const menuId = "mobile-nav";
     const menu = document.getElementById("mobile-nav");
     const iconOpen = toggle?.querySelector(".menu-icon-open");
     const iconClose = toggle?.querySelector(".menu-icon-close");
+
+    document
+      .querySelectorAll<HTMLAnchorElement>("[data-nav]")
+      .forEach((link) => {
+        const href = link.getAttribute("href") ?? "";
+        if (isCurrentNavLink(href, window.location.pathname)) {
+          link.setAttribute("aria-current", "page");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
 
     if (!toggle || !menu || !iconOpen || !iconClose) return;
 

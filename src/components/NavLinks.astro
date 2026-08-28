@@ -1,17 +1,19 @@
 ---
 import type { NavLink } from "../types/site";
+import { isCurrentNavLink } from "../lib/site-links";
 
 interface Props {
   links: NavLink[];
   variant?: "horizontal" | "mobile";
+  currentPath?: string;
 }
 
-const { links, variant = "horizontal" } = Astro.props;
+const { links, variant = "horizontal", currentPath } = Astro.props;
 
 const linkClass =
   variant === "mobile"
-    ? "mobile-nav-link text-base text-text-secondary transition-colors hover:text-text-primary"
-    : "text-sm text-text-secondary transition-colors hover:text-text-primary";
+    ? "mobile-nav-link text-base text-text-secondary transition-colors hover:text-text-primary aria-[current=page]:text-text-primary"
+    : "text-sm text-text-secondary transition-colors hover:text-text-primary aria-[current=page]:text-text-primary";
 ---
 
 {
@@ -22,8 +24,12 @@ const linkClass =
           <a
             href={link.href}
             class={linkClass}
+            data-nav
             {...(link.external
               ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+            {...(currentPath && isCurrentNavLink(link.href, currentPath)
+              ? { "aria-current": "page" as const }
               : {})}
           >
             {link.label}
@@ -36,8 +42,12 @@ const linkClass =
       <a
         href={link.href}
         class={linkClass}
+        data-nav
         {...(link.external
           ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
+        {...(currentPath && isCurrentNavLink(link.href, currentPath)
+          ? { "aria-current": "page" as const }
           : {})}
       >
         {link.label}

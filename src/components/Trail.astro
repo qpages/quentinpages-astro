@@ -1,0 +1,112 @@
+---
+import { cn } from "../lib/cn";
+
+export interface TrailItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: TrailItem[];
+  class?: string;
+  style?: string;
+}
+
+const { items, class: className, style } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class={cn("trail", className)} style={style}>
+  <ol>
+    {
+      items.map((item, index) => {
+        const isLast = index === items.length - 1;
+
+        return (
+          <li>
+            {isLast ? (
+              <h2 aria-current="page">{item.label}</h2>
+            ) : item.href ? (
+              <a href={item.href}>{item.label}</a>
+            ) : (
+              <span>{item.label}</span>
+            )}
+            {!isLast && (
+              <span class="trail-sep" aria-hidden="true">
+                /
+              </span>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>
+
+<style>
+  .trail ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0;
+    row-gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .trail li {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .trail a,
+  .trail span,
+  .trail h2 {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+  }
+
+  .trail a,
+  .trail span:not(.trail-sep) {
+    color: var(--color-text-muted);
+  }
+
+  .trail h2 {
+    color: var(--color-text-secondary);
+  }
+
+  .trail a {
+    padding-block: 0.4rem;
+    margin-block: -0.4rem;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition:
+      color 0.2s ease,
+      text-decoration-color 0.2s ease;
+  }
+
+  .trail a:hover,
+  .trail a:focus-visible {
+    color: var(--color-text-primary);
+    text-decoration-color: color-mix(
+      in srgb,
+      var(--color-text-secondary) 40%,
+      transparent
+    );
+  }
+
+  .trail a:focus-visible {
+    outline: 2px solid var(--color-text-primary);
+    outline-offset: 3px;
+  }
+
+  .trail-sep {
+    margin-inline: 0.65em;
+    color: color-mix(in srgb, var(--color-text-muted) 42%, transparent);
+  }
+</style>

@@ -1,13 +1,30 @@
 import type { NavLink, SiteLinks, SocialLink } from "../types/site";
 
 export function buildNavLinks(links: SiteLinks): NavLink[] {
-  const nav: NavLink[] = [{ label: "Work", href: "#work" }];
+  const nav: NavLink[] = [
+    { label: "Home", href: "/" },
+    { label: "Tools", href: "/tools" },
+  ];
 
   if (links.github) {
     nav.push({ label: "GitHub", href: links.github, external: true });
   }
 
   return nav;
+}
+
+export function isCurrentNavLink(href: string, pathname: string): boolean {
+  const navPath = href.split("#")[0] || "/";
+
+  if (navPath === "/tools") {
+    return pathname === "/tools" || pathname.startsWith("/tools/");
+  }
+
+  if (navPath === "/") {
+    return pathname === "/";
+  }
+
+  return false;
 }
 
 export function buildSocialLinks(links: SiteLinks): SocialLink[] {

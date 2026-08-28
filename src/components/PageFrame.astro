@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import ProfileSidebar from "./ProfileSidebar.astro";
+import Trail from "./Trail.astro";
+import { site } from "../data/site";
+import { getFullName } from "../lib/profile";
+import { buildSocialLinks } from "../lib/site-links";
+
+interface Props {
+  title?: string;
+  description?: string;
+  contentLabel: string;
+  contentId?: string;
+  trail?: { label: string; href?: string }[];
+}
+
+const { title, description, contentLabel, contentId, trail } = Astro.props;
+const { profile, cta, ctaSecondary, links } = site;
+const social = buildSocialLinks(links);
+const fullName = getFullName(profile);
+---
+
+<Layout title={title} description={description}>
+  <div class="mx-auto max-w-[var(--width-container)] px-6 md:px-8">
+    <Header />
+
+    <main
+      class="pb-20 lg:flex lg:items-start lg:gap-10 xl:gap-12"
+      transition:animate="fade"
+    >
+      <ProfileSidebar
+        profile={profile}
+        cta={cta}
+        ctaSecondary={ctaSecondary}
+        social={social}
+        transition:persist="profile-sidebar"
+      />
+
+      <section
+        id={contentId}
+        class="min-w-0 flex-1 lg:border-l lg:border-border/30 lg:pl-10 xl:pl-12"
+        aria-label={contentLabel}
+      >
+        {
+          trail && trail.length > 0 && (
+            <Trail
+              items={trail}
+              class="reveal mb-4"
+              style="animation-delay: 200ms"
+            />
+          )
+        }
+        <div
+          class="grid grid-cols-1 gap-[var(--spacing-bento-gap)] md:grid-cols-2 lg:auto-rows-min"
+        >
+          <slot />
+        </div>
+      </section>
+    </main>
+
+    <Footer name={fullName} email={profile.email} github={links.github} />
+  </div>
+</Layout>

@@ -1,0 +1,37 @@
+---
+import PageFrame from "../../components/PageFrame.astro";
+import UrssafCalculator from "../../components/tools/UrssafCalculator.astro";
+import { site } from "../../data/site";
+import { tools, type ToolItem } from "../../data/tools";
+import { getFullName } from "../../lib/profile";
+
+interface Props {
+  tool: ToolItem;
+}
+
+export function getStaticPaths() {
+  return tools.map((tool) => ({
+    params: { slug: tool.slug },
+    props: { tool },
+  }));
+}
+
+const { tool } = Astro.props;
+const fullName = getFullName(site.profile);
+const title = `${tool.title} · Tools · ${fullName}`;
+---
+
+<PageFrame
+  title={title}
+  description={tool.metaDescription}
+  contentLabel={tool.title}
+  trail={[
+    { label: "Home", href: "/" },
+    { label: "Tools", href: "/tools" },
+    { label: tool.title },
+  ]}
+>
+  <article class="reveal md:col-span-2" style="animation-delay: 280ms">
+    {tool.slug === "urssaf" && <UrssafCalculator />}
+  </article>
+</PageFrame>

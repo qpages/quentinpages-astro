@@ -1,0 +1,19 @@
+---
+import PageFrame from "../../components/PageFrame.astro";
+import ToolsCard from "../../components/cards/ToolsCard.astro";
+import { site } from "../../data/site";
+import { getFullName } from "../../lib/profile";
+
+const fullName = getFullName(site.profile);
+const title = `Tools · ${fullName}`;
+const description = `Freelance tools by ${fullName}: how much to invoice to keep a net after URSSAF, and more as they ship.`;
+---
+
+<PageFrame
+  title={title}
+  description={description}
+  contentLabel="Tools"
+  trail={[{ label: "Home", href: "/" }, { label: "Tools" }]}
+>
+  <ToolsCard style="animation-delay: 280ms" />
+</PageFrame>
