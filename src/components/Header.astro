@@ -9,7 +9,10 @@ const menuId = "mobile-nav";
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="relative py-8 md:py-10" transition:persist="site-header">
+<header
+  class="relative py-[var(--space-header-block)]"
+  transition:persist="site-header"
+>
   <div class="flex items-center justify-between gap-5">
     <nav class="hidden items-center gap-5 sm:flex" aria-label="Main navigation">
       <NavLinks links={navLinks} currentPath={currentPath} />
@@ -67,7 +70,7 @@ const currentPath = Astro.url.pathname;
 
   <nav
     id={menuId}
-    class="mobile-nav hidden border-t border-border/40 pt-4 sm:hidden"
+    class="mobile-nav hidden mt-5 border-t border-border/40 pt-3 sm:hidden"
     aria-label="Mobile navigation"
     hidden
   >

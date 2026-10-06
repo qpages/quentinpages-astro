@@ -11,6 +11,7 @@ interface Props {
   pulse?: boolean;
   external?: boolean;
   class?: string;
+  ariaLabel?: string;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   pulse = false,
   external = false,
   class: className,
+  ariaLabel,
 } = Astro.props;
 
 const variants: Record<Variant, string> = {
@@ -38,8 +40,9 @@ const sizes: Record<Size, string> = {
 <a
   href={href}
   {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
+  {...ariaLabel ? { "aria-label": ariaLabel } : {}}
   class={cn(
-    "inline-flex w-fit items-center justify-center rounded-[var(--radius-pill)] border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-primary",
+    "inline-flex min-h-11 w-fit items-center justify-center gap-1.5 rounded-[var(--radius-pill)] border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-primary",
     sizes[size],
     pulse ? "cta-pulse" : "transition-opacity",
     variants[variant],

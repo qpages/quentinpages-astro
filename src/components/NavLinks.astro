@@ -12,13 +12,13 @@ const { links, variant = "horizontal", currentPath } = Astro.props;
 
 const linkClass =
   variant === "mobile"
-    ? "mobile-nav-link text-base text-text-secondary transition-colors hover:text-text-primary aria-[current=page]:text-text-primary"
-    : "text-sm text-text-secondary transition-colors hover:text-text-primary aria-[current=page]:text-text-primary";
+    ? "mobile-nav-link flex min-h-11 items-center rounded-md px-1 text-base text-text-secondary transition-colors hover:bg-surface/60 hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-primary aria-[current=page]:text-text-primary"
+    : "inline-flex min-h-11 items-center rounded-md px-1 text-sm text-text-secondary transition-colors hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-primary aria-[current=page]:text-text-primary";
 ---
 
 {
   variant === "mobile" ? (
-    <ul class="flex flex-col gap-3">
+    <ul class="flex flex-col gap-1">
       {links.map((link) => (
         <li>
           <a

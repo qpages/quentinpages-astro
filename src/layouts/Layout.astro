@@ -66,6 +66,51 @@ const jsonLd = buildSiteJsonLd(site, siteOrigin);
       document.documentElement.classList.add("motion-ready");
     </script>
     <ClientRouter />
+    <script is:inline>
+      (() => {
+        const MOBILE_QUERY = "(max-width: 1023px)";
+
+        const scrollToTarget = (el) => {
+          if (!el) return false;
+          el.scrollIntoView({ behavior: "instant", block: "start" });
+          return true;
+        };
+
+        const resolveTarget = () => {
+          const { hash, pathname } = window.location;
+
+          if (hash && hash.length > 1) {
+            const id = decodeURIComponent(hash.slice(1));
+            if (id) return document.getElementById(id);
+          }
+
+          // On mobile, subpages stack the profile above content — land on content.
+          if (!window.matchMedia(MOBILE_QUERY).matches) return null;
+          if (pathname === "/" || pathname === "") return null;
+
+          return (
+            document.getElementById("page-content") ||
+            document.querySelector("main > section[aria-label]")
+          );
+        };
+
+        const scrollToLanding = () => {
+          const move = () => scrollToTarget(resolveTarget());
+          if (move()) return;
+
+          let frames = 0;
+          const tick = () => {
+            frames += 1;
+            if (move() || frames >= 16) return;
+            requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        };
+
+        document.addEventListener("astro:after-swap", scrollToLanding);
+        document.addEventListener("astro:page-load", scrollToLanding);
+      })();
+    </script>
   </head>
   <body>
     <noscript>

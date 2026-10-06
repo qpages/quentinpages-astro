@@ -29,7 +29,7 @@ export const site: SiteConfig = {
   },
   cta: {
     label: "Book a call",
-    href: "mailto:hello@quentinpages.com",
+    href: `mailto:${email}`,
   },
   ctaSecondary: {
     label: "View work",

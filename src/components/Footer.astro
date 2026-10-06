@@ -1,4 +1,6 @@
 ---
+import Button from "./Button.astro";
+
 interface Props {
   name: string;
   email: string;
@@ -9,41 +11,39 @@ const { name, email, github } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
-<footer class="reveal mt-16 border-t border-border/30 pt-6 pb-6 md:mt-20">
+<footer
+  class="reveal mt-[var(--space-section)] border-t border-border/30 py-6 sm:py-8"
+>
   <div
-    class="flex flex-col gap-5 rounded-[var(--radius-card)] border border-border/30 bg-surface/35 p-5 sm:flex-row sm:items-center sm:justify-between md:p-6"
+    class="flex flex-col gap-5 rounded-[var(--radius-card)] border border-border/30 bg-surface/35 p-[var(--space-card)] sm:flex-row sm:items-center sm:justify-between"
   >
     <div>
-      <p
-        class="mb-2 font-mono text-[0.625rem] tracking-wide text-text-muted uppercase"
-      >
+      <p class="mb-2 font-mono text-xs tracking-wide text-text-muted uppercase">
         Let’s talk
       </p>
       <p class="max-w-md text-sm leading-relaxed text-text-secondary">
         Always curious to meet new people and hear what they’re building.
       </p>
     </div>
-    <a
+    <Button
       href={`mailto:${email}`}
-      class="group inline-flex w-fit items-center gap-2 rounded-full border border-border/60 bg-surface/40 px-4 py-2 text-xs text-text-primary transition-colors hover:border-border-subtle hover:bg-surface"
-      aria-label={`Email ${name}`}
+      variant="secondary"
+      ariaLabel={`Email ${name}`}
     >
       Say hello
-      <span
-        class="text-text-muted transition-transform duration-200 group-hover:translate-x-0.5"
-        aria-hidden="true">→</span
-      >
-    </a>
+    </Button>
   </div>
 
-  <div class="mt-6 flex items-center justify-between text-sm text-text-muted">
+  <div
+    class="mt-6 flex flex-col gap-3 text-sm text-text-muted sm:flex-row sm:items-center sm:justify-between"
+  >
     <p>© {year} {name}</p>
     <div class="flex items-center gap-5">
       {
         github && (
           <a
             href={github}
-            class="transition-colors hover:text-text-secondary"
+            class="inline-flex min-h-11 min-w-11 items-center justify-center px-1.5 transition-colors hover:text-text-secondary"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -53,7 +53,7 @@ const year = new Date().getFullYear();
       }
       <a
         href="#"
-        class="transition-colors hover:text-text-secondary"
+        class="inline-flex min-h-11 min-w-11 items-center justify-center px-1.5 transition-colors hover:text-text-secondary"
         aria-label="Back to top">Top ↑</a
       >
     </div>
