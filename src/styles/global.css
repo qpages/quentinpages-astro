@@ -5,6 +5,17 @@
   --font-accent: var(--font-fraunces), ui-serif, Georgia, serif;
   --font-mono: ui-monospace, "SF Mono", monospace;
 
+  /*
+   * Type scale: 16px body copy, 15px supporting copy, and 13px metadata.
+   * The previous 10–12px treatment was difficult to read on compact screens.
+   */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.125rem;
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.375rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+
   --color-background: #09090b;
   --color-surface: #18181b;
   --color-surface-hover: #27272a;
@@ -31,8 +42,18 @@
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.18);
   --shadow-menu: 0 2px 16px rgb(0 0 0 / 0.35);
 
-  --spacing-bento-gap: 1.25rem;
-  --width-container: 68rem;
+  /*
+   * Shared layout rhythm: 4px base, deliberate 16–32px section steps.
+   * Components consume these roles instead of introducing one-off spacing.
+   */
+  --space-card: clamp(1.25rem, 2vw, 1.5rem);
+  --space-card-content: clamp(1.25rem, 2.5vw, 1.75rem);
+  --space-grid: clamp(1rem, 2vw, 1.5rem);
+  --space-item: 1rem;
+  --space-page-inline: clamp(1.25rem, 4vw, 2rem);
+  --space-header-block: clamp(1.5rem, 3vw, 2.5rem);
+  --space-section: clamp(2.5rem, 6vw, 5rem);
+  --width-container: 72rem;
 }
 
 @layer base {
@@ -43,6 +64,8 @@
 
   body {
     @apply bg-background font-sans text-text-primary antialiased;
+    min-width: 20rem;
+    overflow-x: clip;
     background-image:
       radial-gradient(
         ellipse 70% 52% at 72% 18%,
@@ -114,6 +137,13 @@
       rgb(0 0 0 / 0.38),
       #000 78%
     );
+  }
+
+  #featured-work,
+  #tools,
+  #page-content,
+  #work {
+    scroll-margin-top: 1.25rem;
   }
 
   .scroll-progress {
