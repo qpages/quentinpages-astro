@@ -10,7 +10,6 @@ export const caseStudies: CaseStudy[] = [
     featured: true,
     teaser:
       "Each participant keeps every shooting. The email-a-link step is gone.",
-    highlight: "In production",
     trailLabel: "Mozza Dog Shop",
     lead: "The brief was not another website. It was a task that returned",
     leadHighlight: "after every shooting.",
@@ -43,9 +42,18 @@ export const caseStudies: CaseStudy[] = [
       "Coolify",
     ],
     results: [
-      { label: "Client", value: "Email in, photos out" },
-      { label: "Files", value: "Gallery and ZIP" },
-      { label: "Studio", value: "Two admins" },
+      {
+        label: "Client",
+        value: "No account. The email from the shooting opens the photos.",
+      },
+      {
+        label: "Photos",
+        value: "One gallery per session, or the whole set as a ZIP.",
+      },
+      {
+        label: "Studio",
+        value: "Mickael and Margaux upload once, from the admin.",
+      },
     ],
     liveUrl: "https://mozza-web.quentinpages.dev",
     repoUrl: "https://github.com/qpages/mozza-dog-shop-monorepo",
