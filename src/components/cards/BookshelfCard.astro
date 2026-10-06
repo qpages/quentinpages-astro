@@ -1,0 +1,196 @@
+---
+import Card from "../Card.astro";
+import CardCta from "../CardCta.astro";
+import ReadingProgress from "../ReadingProgress.astro";
+import { currentRead, readingPage, shelf } from "../../data/reading";
+import { cn } from "../../lib/cn";
+
+interface Props {
+  style?: string;
+}
+
+const { style } = Astro.props;
+const book = currentRead;
+const page = readingPage(book);
+---
+
+<div class={cn("reveal h-full md:col-span-2")} style={style}>
+  <Card class="h-full">
+    <div class="shelf">
+      <section class="now" aria-labelledby="current-read-title">
+        <img
+          class="now__cover"
+          src={book.cover}
+          alt={`Cover of ${book.title} by ${book.author}`}
+          width="448"
+          height="625"
+        />
+
+        <div class="min-w-0 flex-1">
+          <h3
+            id="current-read-title"
+            class="font-accent text-[1.75rem] leading-[1.05] tracking-[-0.03em] text-text-primary md:text-4xl"
+          >
+            {book.title}
+          </h3>
+          <p class="mt-2 text-sm text-text-secondary">
+            {book.subtitle}, {book.author}
+          </p>
+          <blockquote class="now__quote">
+            <p>« {book.quote} »</p>
+          </blockquote>
+          <p
+            class="mt-4 font-mono text-[0.625rem] tracking-wide text-text-muted uppercase"
+          >
+            {book.publisher} · {book.format} · {book.pages} pages · {
+              book.published
+            }
+          </p>
+          <div class="mt-5 max-w-sm">
+            <ReadingProgress
+              label={`Reading progress for ${book.title}`}
+              progress={book.progress}
+              currentPage={page}
+              totalPages={book.pages}
+            />
+          </div>
+          <div class="mt-4">
+            <CardCta href={book.href} external>Read on Kindle</CardCta>
+          </div>
+        </div>
+      </section>
+
+      <section class="band" aria-labelledby="shelf-title">
+        <h3 id="shelf-title" class="band__title">Shelf</h3>
+        <ul class="shelf-list">
+          {
+            shelf.map((item) => (
+              <li class="pick">
+                <img
+                  class="pick__cover"
+                  src={item.cover}
+                  alt=""
+                  width={item.width}
+                  height={item.height}
+                />
+                <span class="min-w-0">
+                  <span class="pick__title">{item.title}</span>
+                  <span class="pick__author">{item.author}</span>
+                  <span class="pick__cta">
+                    <CardCta href={item.href} external>
+                      Read on Kindle
+                    </CardCta>
+                  </span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </Card>
+</div>
+
+<style>
+  .now {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .now__cover {
+    width: 7.25rem;
+    height: auto;
+    flex: none;
+    aspect-ratio: 448 / 625;
+    object-fit: cover;
+    border-radius: 0.15rem 0.3rem 0.3rem 0.12rem;
+    box-shadow: -10px 16px 28px rgb(0 0 0 / 0.34);
+  }
+
+  .now__quote {
+    margin: 1.25rem 0 0;
+    max-width: 36rem;
+  }
+
+  .now__quote p {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    color: var(--color-text-secondary);
+  }
+
+  .band {
+    margin-top: 2.25rem;
+    padding-top: 2.25rem;
+    border-top: 1px solid
+      color-mix(in srgb, var(--color-border-subtle) 34%, transparent);
+  }
+
+  .band__title {
+    margin: 0 0 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .shelf-list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pick {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding-block: 0.85rem;
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--color-border-subtle) 34%, transparent);
+  }
+
+  .shelf-list > li:last-child .pick {
+    border-bottom: none;
+  }
+
+  .pick__cover {
+    width: 2.65rem;
+    height: auto;
+    flex: none;
+    object-fit: cover;
+    border-radius: 0.1rem 0.18rem 0.18rem 0.08rem;
+  }
+
+  .pick__title,
+  .pick__author {
+    display: block;
+  }
+
+  .pick__title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .pick__author {
+    margin-top: 0.2rem;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+  }
+
+  .pick__cta {
+    display: block;
+    margin-top: 0.55rem;
+  }
+
+  @media (min-width: 40rem) {
+    .now {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.75rem;
+    }
+  }
+</style>

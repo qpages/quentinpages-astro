@@ -1,0 +1,52 @@
+---
+interface Props {
+  label: string;
+  progress: number;
+  currentPage: number;
+  totalPages: number;
+}
+
+const { label, progress, currentPage, totalPages } = Astro.props;
+---
+
+<div>
+  <div
+    class="mb-2 flex items-center justify-between font-mono text-[0.625rem] text-text-muted"
+  >
+    <span>{currentPage} / {totalPages}</span>
+    <span>{progress}%</span>
+  </div>
+  <div
+    class="progress"
+    role="progressbar"
+    aria-label={label}
+    aria-valuenow={progress}
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
+    <span style={`--progress: ${progress}%`}></span>
+  </div>
+</div>
+
+<style>
+  .progress {
+    height: 1px;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-border-subtle) 60%, transparent);
+  }
+
+  .progress span {
+    display: block;
+    width: var(--progress);
+    height: 100%;
+    background: var(--color-text-primary);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress span {
+      transition: none;
+    }
+  }
+</style>

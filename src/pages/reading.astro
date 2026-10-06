@@ -1,0 +1,19 @@
+---
+import PageFrame from "../components/PageFrame.astro";
+import BookshelfCard from "../components/cards/BookshelfCard.astro";
+import { site } from "../data/site";
+import { getFullName } from "../lib/profile";
+
+const fullName = getFullName(site.profile);
+const title = `Bookshelf · ${fullName}`;
+const description = `What ${site.profile.firstName} is reading now: La vie courante by François d’Haene, and the books on the shelf.`;
+---
+
+<PageFrame
+  title={title}
+  description={description}
+  contentLabel="Bookshelf"
+  trail={[{ label: "Home", href: "/" }, { label: "Bookshelf" }]}
+>
+  <BookshelfCard style="animation-delay: 280ms" />
+</PageFrame>
