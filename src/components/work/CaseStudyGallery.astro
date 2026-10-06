@@ -1,0 +1,233 @@
+---
+import Card from "../Card.astro";
+import type { CaseStudyShot } from "../../types/case-study";
+
+interface Props {
+  shots: CaseStudyShot[];
+}
+
+const { shots } = Astro.props;
+const first = shots[0];
+---
+
+<div
+  class="reveal md:col-span-2"
+  style="animation-delay: 360ms"
+  data-case-gallery
+>
+  <Card title="Screens" class="h-full">
+    <figure class="stage" id="case-shot-stage" data-panel>
+      <img
+        data-stage
+        src={first.src}
+        alt={first.alt}
+        width="3000"
+        height="1704"
+        decoding="async"
+      />
+    </figure>
+
+    <div class="thumbs" role="tablist" aria-label="Product screens">
+      {
+        shots.map((shot, index) => (
+          <button
+            type="button"
+            class="thumb"
+            role="tab"
+            id={`case-shot-${index}`}
+            aria-selected={index === 0 ? "true" : "false"}
+            aria-controls="case-shot-stage"
+            tabindex={index === 0 ? 0 : -1}
+            data-src={shot.src}
+            data-alt={shot.alt}
+          >
+            <img
+              src={shot.src}
+              alt=""
+              width="3000"
+              height="1704"
+              decoding="async"
+            />
+            <span>{shot.caption}</span>
+          </button>
+        ))
+      }
+    </div>
+  </Card>
+</div>
+
+<script>
+  function bindGallery(root: HTMLElement) {
+    const stage = root.querySelector<HTMLImageElement>("[data-stage]");
+    const panel = root.querySelector<HTMLElement>("[data-panel]");
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[role='tab']")];
+
+    if (!stage || tabs.length === 0) return;
+
+    const select = (index: number, focus = false) => {
+      const tab = tabs[index];
+      if (!tab) return;
+
+      const src = tab.dataset.src;
+      const alt = tab.dataset.alt;
+      if (src) stage.src = src;
+      if (alt) stage.alt = alt;
+
+      tabs.forEach((item, itemIndex) => {
+        const selected = itemIndex === index;
+        item.setAttribute("aria-selected", selected ? "true" : "false");
+        item.tabIndex = selected ? 0 : -1;
+      });
+
+      if (panel && tab.id) panel.setAttribute("aria-labelledby", tab.id);
+      if (focus) tab.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => select(index));
+      tab.addEventListener("keydown", (event) => {
+        const last = tabs.length - 1;
+        let next = index;
+
+        if (event.key === "ArrowRight") next = index === last ? 0 : index + 1;
+        else if (event.key === "ArrowLeft")
+          next = index === 0 ? last : index - 1;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = last;
+        else return;
+
+        event.preventDefault();
+        select(next, true);
+      });
+    });
+
+    if (panel && tabs[0]?.id) {
+      panel.setAttribute("aria-labelledby", tabs[0].id);
+    }
+  }
+
+  function bootGalleries() {
+    document
+      .querySelectorAll<HTMLElement>("[data-case-gallery]")
+      .forEach((root) => {
+        if (root.dataset.bound === "true") return;
+        root.dataset.bound = "true";
+        bindGallery(root);
+      });
+  }
+
+  bootGalleries();
+  document.addEventListener("astro:page-load", bootGalleries);
+</script>
+
+<style>
+  .stage {
+    margin: 0 0 0.875rem;
+  }
+
+  .stage img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.875rem;
+    border: 1px solid
+      color-mix(in srgb, var(--color-border-subtle) 40%, transparent);
+    background: var(--color-background);
+  }
+
+  .thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .thumb {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-muted);
+    text-align: left;
+    cursor: pointer;
+    opacity: 0.38;
+    transition:
+      opacity 0.3s ease,
+      color 0.25s ease;
+  }
+
+  .thumb img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    border: 1px solid
+      color-mix(in srgb, var(--color-border-subtle) 40%, transparent);
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.35s ease;
+  }
+
+  .thumb span {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .thumb[aria-selected="true"] {
+    opacity: 1;
+    color: var(--color-text-primary);
+  }
+
+  .thumb[aria-selected="true"] img {
+    border-color: color-mix(
+      in srgb,
+      var(--color-text-primary) 42%,
+      transparent
+    );
+    box-shadow: 0 0 0 3px
+      color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+  }
+
+  .thumb:focus-visible {
+    outline: 2px solid var(--color-text-primary);
+    outline-offset: 3px;
+    border-radius: 0.75rem;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .thumb:hover {
+      opacity: 1;
+      color: var(--color-text-secondary);
+    }
+
+    .thumb:hover img {
+      border-color: color-mix(
+        in srgb,
+        var(--color-border-subtle) 80%,
+        transparent
+      );
+    }
+
+    .thumb[aria-selected="true"]:hover {
+      color: var(--color-text-primary);
+    }
+
+    .thumb[aria-selected="true"]:hover img {
+      border-color: color-mix(
+        in srgb,
+        var(--color-text-primary) 42%,
+        transparent
+      );
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .thumb,
+    .thumb img {
+      transition: none;
+    }
+  }
+</style>

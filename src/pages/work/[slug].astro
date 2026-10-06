@@ -1,0 +1,36 @@
+---
+import PageFrame from "../../components/PageFrame.astro";
+import CaseStudyArticle from "../../components/work/CaseStudyArticle.astro";
+import { caseStudies } from "../../data/case-studies";
+import { site } from "../../data/site";
+import { getFullName } from "../../lib/profile";
+import type { CaseStudy } from "../../types/case-study";
+
+interface Props {
+  study: CaseStudy;
+}
+
+export function getStaticPaths() {
+  return caseStudies.map((study) => ({
+    params: { slug: study.slug },
+    props: { study },
+  }));
+}
+
+const { study } = Astro.props;
+const fullName = getFullName(site.profile);
+const title = `${study.title} · ${fullName}`;
+---
+
+<PageFrame
+  title={title}
+  description={study.teaser}
+  contentLabel={study.title}
+  trail={[
+    { label: "Home", href: "/" },
+    { label: "Work", href: "/#featured-work" },
+    { label: study.trailLabel ?? study.title },
+  ]}
+>
+  <CaseStudyArticle study={study} />
+</PageFrame>

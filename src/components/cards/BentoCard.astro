@@ -5,6 +5,7 @@ import LocationCard from "./LocationCard.astro";
 import MusicCard from "./MusicCard.astro";
 import ReadingCard from "./ReadingCard.astro";
 import StackCard from "./StackCard.astro";
+import FeaturedWorkCard from "./FeaturedWorkCard.astro";
 import WorkCard from "./WorkCard.astro";
 import type { BentoCardConfig } from "../../types/site";
 
@@ -29,6 +30,8 @@ const { card, style } = Astro.props;
     <MusicCard card={card} style={style} />
   ) : card.id === "work" ? (
     <WorkCard card={card} style={style} />
+  ) : card.id === "featured-work" ? (
+    <FeaturedWorkCard card={card} style={style} />
   ) : (
     <BentoPlaceholder card={card} style={style} />
   )

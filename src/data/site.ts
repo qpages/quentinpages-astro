@@ -33,7 +33,7 @@ export const site: SiteConfig = {
   },
   ctaSecondary: {
     label: "View work",
-    href: "#work",
+    href: "/#featured-work",
   },
   links: {
     github: "https://github.com/qpages",

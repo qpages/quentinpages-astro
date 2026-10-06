@@ -9,6 +9,7 @@ interface Props {
   variant?: Variant;
   size?: Size;
   pulse?: boolean;
+  external?: boolean;
   class?: string;
 }
 
@@ -17,6 +18,7 @@ const {
   variant = "primary",
   size = "default",
   pulse = false,
+  external = false,
   class: className,
 } = Astro.props;
 
@@ -35,8 +37,9 @@ const sizes: Record<Size, string> = {
 
 <a
   href={href}
+  {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
   class={cn(
-    "inline-flex w-fit items-center justify-center rounded-[var(--radius-pill)] border",
+    "inline-flex w-fit items-center justify-center rounded-[var(--radius-pill)] border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-primary",
     sizes[size],
     pulse ? "cta-pulse" : "transition-opacity",
     variants[variant],

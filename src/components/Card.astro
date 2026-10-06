@@ -4,12 +4,13 @@ import CardLabel from "./CardLabel.astro";
 
 interface Props {
   title?: string;
+  meta?: string;
   class?: string;
   href?: string;
   ariaLabel?: string;
 }
 
-const { title, class: className, href, ariaLabel } = Astro.props;
+const { title, meta, class: className, href, ariaLabel } = Astro.props;
 
 const baseClass = cn(
   "flex min-h-48 flex-col rounded-[var(--radius-card)] border border-border/30 bg-surface/35 p-5 md:p-6",
@@ -28,9 +29,10 @@ const baseClass = cn(
       rel="noopener noreferrer"
       aria-label={ariaLabel}
     >
-      {title && (
-        <header class="mb-5">
-          <CardLabel label={title} />
+      {(title || meta) && (
+        <header class="mb-5 flex items-baseline justify-between gap-3">
+          {title && <CardLabel label={title} />}
+          {meta && <CardLabel label={meta} />}
         </header>
       )}
       <div class="flex flex-1 flex-col">
@@ -39,9 +41,10 @@ const baseClass = cn(
     </a>
   ) : (
     <article class={baseClass}>
-      {title && (
-        <header class="mb-5">
-          <CardLabel label={title} />
+      {(title || meta) && (
+        <header class="mb-5 flex items-baseline justify-between gap-3">
+          {title && <CardLabel label={title} />}
+          {meta && <CardLabel label={meta} />}
         </header>
       )}
       <div class="flex flex-1 flex-col">

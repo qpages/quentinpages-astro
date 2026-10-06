@@ -57,7 +57,13 @@ export interface SiteConfig {
 }
 
 export type BentoCardId =
-  "experience" | "stack" | "playlist" | "reading" | "location" | "work";
+  | "experience"
+  | "stack"
+  | "playlist"
+  | "reading"
+  | "location"
+  | "work"
+  | "featured-work";
 
 export interface BentoCardConfig {
   id: BentoCardId;
