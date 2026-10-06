@@ -12,22 +12,18 @@ const { card, style } = Astro.props;
 
 const steps = [
   {
-    number: "01",
     title: "Frame",
     description: "Goals, users, constraints.",
   },
   {
-    number: "02",
     title: "Prototype",
     description: "Test the risky assumptions.",
   },
   {
-    number: "03",
     title: "Build",
     description: "Ship a focused product.",
   },
   {
-    number: "04",
     title: "Refine",
     description: "Observe, measure, improve.",
   },
@@ -56,7 +52,6 @@ const steps = [
                 <span class="workflow__dot" />
                 {index < steps.length - 1 && <span class="workflow__line" />}
               </div>
-              <span class="workflow__number">{step.number}</span>
               <strong class="workflow__title">{step.title}</strong>
               <span class="workflow__description">{step.description}</span>
             </li>
@@ -141,14 +136,6 @@ const steps = [
 
   .workflow__step:nth-child(4) .workflow__line {
     animation-delay: 0.81s;
-  }
-
-  .workflow__number {
-    margin-bottom: 0.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    letter-spacing: 0.08em;
-    color: var(--color-text-muted);
   }
 
   .workflow__title {

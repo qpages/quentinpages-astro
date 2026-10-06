@@ -13,7 +13,7 @@ export const site: SiteConfig = {
   profile: {
     firstName: "Quentin",
     lastName: "Pagès",
-    role: "Product Full-Stack Engineer",
+    role: "Product Fullstack Engineer",
     tagline: "Building web products for startups and product teams.",
     taglineHighlight: "startups",
     location: "France",
@@ -24,12 +24,12 @@ export const site: SiteConfig = {
     locationPhoto: "/images/paris-street.webp",
     email,
     available: true,
-    availabilityLabel: "Available from October",
+    availabilityLabel: "Available from November 26",
     photo: "/images/avatar.webp",
   },
   cta: {
     label: "Book a call",
-    href: `mailto:${email}`,
+    href: "mailto:hello@quentinpages.com",
   },
   ctaSecondary: {
     label: "View work",
