@@ -26,7 +26,9 @@ const stack = [
   style={style}
 >
   <Card title={card.title} class="h-full">
-    <div class="flex flex-1 flex-col justify-between gap-4">
+    <div
+      class="flex flex-1 flex-col justify-between gap-[var(--space-card-content)]"
+    >
       <p class="text-xl leading-snug tracking-tight text-text-muted">
         A thoughtful stack, from idea to production.
       </p>
@@ -58,7 +60,7 @@ const stack = [
     align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
-    padding-block: 0.45rem;
+    padding-block: 0.625rem;
     border-bottom: 1px solid
       color-mix(in srgb, var(--color-border-subtle) 34%, transparent);
   }

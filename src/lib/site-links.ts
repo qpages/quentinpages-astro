@@ -3,7 +3,7 @@ import type { NavLink, SiteLinks, SocialLink } from "../types/site";
 export function buildNavLinks(links: SiteLinks): NavLink[] {
   const nav: NavLink[] = [
     { label: "Home", href: "/" },
-    { label: "Tools", href: "/tools" },
+    { label: "Tools", href: "/tools#tools" },
   ];
 
   if (links.github) {

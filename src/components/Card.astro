@@ -13,9 +13,9 @@ interface Props {
 const { title, meta, class: className, href, ariaLabel } = Astro.props;
 
 const baseClass = cn(
-  "flex min-h-48 flex-col rounded-[var(--radius-card)] border border-border/30 bg-surface/35 p-5 md:p-6",
+  "flex min-h-48 flex-col gap-[var(--space-card-content)] rounded-[var(--radius-card)] border border-border/30 bg-surface/35 p-[var(--space-card)]",
   href &&
-    "text-inherit no-underline transition-colors duration-200 hover:border-border/60 focus-visible:border-border-subtle focus-visible:outline-none",
+    "text-inherit no-underline transition-colors duration-200 hover:border-border/60 focus-visible:border-border-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
   className,
 );
 ---
@@ -30,24 +30,24 @@ const baseClass = cn(
       aria-label={ariaLabel}
     >
       {(title || meta) && (
-        <header class="mb-5 flex items-baseline justify-between gap-3">
+        <header class="flex items-baseline justify-between gap-3">
           {title && <CardLabel label={title} />}
           {meta && <CardLabel label={meta} />}
         </header>
       )}
-      <div class="flex flex-1 flex-col">
+      <div class="flex min-h-0 flex-1 flex-col">
         <slot />
       </div>
     </a>
   ) : (
     <article class={baseClass}>
       {(title || meta) && (
-        <header class="mb-5 flex items-baseline justify-between gap-3">
+        <header class="flex items-baseline justify-between gap-3">
           {title && <CardLabel label={title} />}
           {meta && <CardLabel label={meta} />}
         </header>
       )}
-      <div class="flex flex-1 flex-col">
+      <div class="flex min-h-0 flex-1 flex-col">
         <slot />
       </div>
     </article>

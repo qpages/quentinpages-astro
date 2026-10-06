@@ -24,7 +24,7 @@ const linkedin = site.links.linkedin;
   style={style}
 >
   <Card title={card.title} class="h-full">
-    <div class="flex flex-1 flex-col gap-5">
+    <div class="flex flex-1 flex-col gap-[var(--space-card-content)]">
       <div class="experience-headline">
         <p
           class="max-w-64 text-xl leading-snug tracking-[-0.025em] text-text-muted"
@@ -69,7 +69,7 @@ const linkedin = site.links.linkedin;
                     {entry.company}
                   </p>
                   <p
-                    class="w-28 shrink-0 text-right font-mono text-[0.6875rem] tracking-wide whitespace-nowrap text-text-muted"
+                    class="w-28 shrink-0 text-right font-mono text-xs tracking-wide whitespace-nowrap text-text-muted"
                     aria-label={`${entry.startLabel} to ${entry.endLabel}`}
                   >
                     <time datetime={entry.startDate}>{entry.startLabel}</time>

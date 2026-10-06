@@ -54,7 +54,6 @@ export const bentoCards: BentoCardConfig[] = [
     title: "Featured work",
     colSpan: 2,
     rowSpan: 1,
-    minHeight: "min-h-96",
     visible: true,
   },
 ];

@@ -38,7 +38,9 @@ const steps = [
   style={style}
 >
   <Card title={card.title} class="work-card h-full">
-    <div class="flex flex-1 flex-col justify-between gap-7">
+    <div
+      class="flex flex-1 flex-col justify-between gap-[var(--space-card-content)]"
+    >
       <p class="max-w-xl text-xl leading-snug tracking-tight text-text-muted">
         From ambiguity to something{" "}
         <span class="font-accent text-text-secondary">people can use.</span>
@@ -59,9 +61,7 @@ const steps = [
         }
       </ol>
 
-      <p
-        class="font-mono text-[0.625rem] tracking-[0.12em] text-text-muted uppercase"
-      >
+      <p class="font-mono text-xs tracking-[0.12em] text-text-muted uppercase">
         Async-first <span aria-hidden="true">·</span> Clear scope
         <span aria-hidden="true">·</span> Weekly demos
       </p>
@@ -148,7 +148,7 @@ const steps = [
   .workflow__description {
     max-width: 9rem;
     margin-top: 0.25rem;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     line-height: 1.45;
     color: var(--color-text-muted);
     transition:
@@ -182,7 +182,11 @@ const steps = [
   @media (max-width: 639px) {
     .workflow {
       grid-template-columns: 1fr 1fr;
-      gap: 1.5rem 0;
+      gap: 1.5rem 1rem;
+    }
+
+    .workflow__step {
+      padding-right: 0;
     }
 
     .workflow__rail {

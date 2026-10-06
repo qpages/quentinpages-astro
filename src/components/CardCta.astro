@@ -13,7 +13,7 @@ const { href, external = false, class: className } = Astro.props;
 <a
   href={href}
   class={cn(
-    "inline-flex items-center gap-1 text-xs tracking-wide text-text-muted uppercase transition-colors hover:text-text-secondary",
+    "inline-flex min-h-11 items-center gap-1 py-2 text-xs tracking-wide text-text-secondary uppercase transition-colors hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-primary",
     className,
   )}
   {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}

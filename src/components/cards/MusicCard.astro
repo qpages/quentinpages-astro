@@ -106,9 +106,9 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
                     class="track__title"
                     aria-label={`Open ${track.title} on Spotify`}
                   >
-                    {track.title}
+                    <span>{track.title}</span>
+                    <span class="track__artist">{track.artist}</span>
                   </a>
-                  <span class="track__artist">{track.artist}</span>
                 </div>
               </li>
             ))
@@ -231,10 +231,10 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
 <style>
   .music-layout {
     display: grid;
-    grid-template-columns: 6.75rem minmax(0, 1fr);
-    flex: 1;
-    gap: 1.35rem;
+    grid-template-columns: minmax(5.75rem, 6.75rem) minmax(0, 1fr);
     align-items: center;
+    flex: 1;
+    gap: clamp(1rem, 3vw, 1.35rem);
   }
 
   .cover-wrap {
@@ -303,7 +303,7 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
     bottom: 0.65rem;
     left: 0.8rem;
     font-family: var(--font-mono);
-    font-size: 0.38rem;
+    font-size: 0.75rem;
     letter-spacing: 0.12em;
   }
 
@@ -321,9 +321,11 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
 
   .track__toggle {
     display: inline-flex;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
     align-items: center;
+    justify-content: center;
     gap: 0.45rem;
-    min-width: 2.85rem;
     padding: 0;
     border: 0;
     background: transparent;
@@ -340,7 +342,7 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
 
   .track__index {
     font-family: var(--font-mono);
-    font-size: 0.55rem;
+    font-size: 0.75rem;
     line-height: 1;
   }
 
@@ -413,11 +415,12 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
   }
 
   .track__title {
-    display: block;
+    display: flex;
+    min-height: 2.75rem;
+    flex-direction: column;
+    justify-content: center;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.76rem;
+    font-size: 0.875rem;
     line-height: 1.2;
     color: var(--color-text-primary);
     text-decoration: underline;
@@ -439,7 +442,7 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
     text-overflow: ellipsis;
     white-space: nowrap;
     margin-top: 0.12rem;
-    font-size: 0.58rem;
+    font-size: 0.75rem;
     color: var(--color-text-muted);
   }
 
@@ -480,7 +483,6 @@ const spotifyUrl = "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe";
 
     .track__toggle {
       gap: 0;
-      min-width: auto;
     }
 
     .track__control {
